@@ -1,6 +1,6 @@
 class HashTable:
     def __init__(self):
-        self.capacity = 400
+        self.capacity = 6151
         self.size = 0
         self.table = {}
 
