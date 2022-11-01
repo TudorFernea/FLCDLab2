@@ -32,8 +32,23 @@ class HashTable:
             hashsum += ord(c)
         return hashsum % self.capacity
 
+    def __str__(self):
+        res = ""
+        entries = []
+
+        for t in self.table.values():
+            for entry in t:
+                entries.append(entry)
+
+        entries.sort(key=lambda x: x[1])
+
+        for entry in entries:
+            res += str(entry) + "\n"
+
+        return res
 
 
+""""
 symtable = HashTable()
 
 symtable.insert("ab","num")
@@ -41,3 +56,4 @@ symtable.insert("ba","num")
 symtable.insert("abcd","list")
 
 print(symtable.get("ba"))
+"""
