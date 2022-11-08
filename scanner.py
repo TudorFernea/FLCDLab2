@@ -1,31 +1,47 @@
 from table import HashTable
 
+import re
+
 class Scanner:
 
     def __init__(self):
         self.tokens = []
         self.operators = ["+", "-", "==", "/", "%", "<=", ">=", "!=", "!", "="]
-        self.separators = [" ", ";", "(", ")", "\n", "{", "}", ","]
+        self.separators = [" ", ";", "(", ")", "\n", "{", "}", ",", "\t","."]
+        self.identifier = r'^[a-zA-Z]([a-zA-Z]|[0-9])*$'
+        self.constant = r'^(0|[+-]?[1-9][0-9]*)$|^\".*\"$|^\'.*\'$'
 
-    def tokenize(self, line):
+    def tokenize(self, line, linenum):
 
         index = 0
         token = ""
+        inString = False
         while index < len(line):
 
             c = line[index]
 
-            if self.isInOperator(c):
-                self.tokens.append(token)
+
+            if self.isInOperator(c) and not inString:
+                self.tokens.append((token,linenum))
                 token, index = self.getOperator(line, index)
-                self.tokens.append(token)
+                self.tokens.append((token,linenum))
                 token = ""
             else:
-                if self.isSeparator(c):
-                    self.tokens.append(token)
+                if self.isSeparator(c) and not inString:
+                    self.tokens.append((token,linenum))
                     token = ""
                 else:
-                    token += c
+                    if c == '"':
+                        if inString:
+                            token += c
+                            self.tokens.append((token,linenum))
+                            token = ""
+                            inString = False
+                        else:
+                            token += c
+                            inString = True
+                    else:
+                        token += c
             index += 1
 
 
@@ -69,29 +85,51 @@ def run():
 
         scanner = Scanner()
         ST = HashTable()
-        PIF = HashTable()
+        PIF = []
 
+        linenum = 0
         for l in lines:
-            scanner.tokenize(l)
+            linenum += 1
+            scanner.tokenize(l, linenum)
 
-        scanner.tokens = list(filter(("").__ne__, scanner.tokens))
+        for p in scanner.tokens:
+            if p[0] == "":
+                scanner.tokens.remove(p)
 
         index = 0
 
-        print(tok)
+        error = False
 
-        for t in scanner.tokens:
+        for p in scanner.tokens:
+
+            t = p[0]
+
+
 
             if t in scanner.separators or t in scanner.operators or t in tok:
-                PIF.insert(t,0)
+                PIF.append((t, 0))
             else:
-                index += 1
-                ST.insert(t,index)
-                PIF.insert("id", index)
+                if re.search(scanner.constant, t) != None or re.search(scanner.identifier, t) != None:
+                    if ST.get(t) == -1:
+                        index += 1
+                        ST.insert(t, index)
+                    insertIndex = ST.get(t)
+                    PIF.append(("id", insertIndex))
+                else:
+                    error = True
+                    print(f"Lexical error at {p[0]} line {p[1]}")
 
-        print(scanner.tokens)
-        print(ST)
-        print(PIF)
+        pifOut = open("PIF.out","w")
+        stOUT = open("ST.out","w")
+
+        if error == False:
+            print("Lexically correct")
+
+        #print(scanner.tokens)
+        stOUT.write("Symbol table using hash table \n")
+        stOUT.write(str(ST))
+        for p in PIF:
+            pifOut.write(str(p)+"\n")
 
 
 run()
