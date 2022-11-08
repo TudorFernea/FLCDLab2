@@ -1,0 +1,8 @@
+num a, b, c;
+get(a);
+get(b);
+get(c);
+num maximum = max(a,b,c);
+
+
+print(maximum);

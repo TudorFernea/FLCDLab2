@@ -1,0 +1,8 @@
+num maximum;
+get(a,b); - a,b not declared, wrong syntax for function get
+if a > b
+	print("First");
+	maximum = a;
+else
+	print("Second");
+	maximum = b;   - {} not used, error from else without precedent if

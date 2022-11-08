@@ -1,0 +1,11 @@
+list l;
+num n, sum;
+get(n);
+
+for num i from 1 to n
+{	
+get(l.at(i));
+sum = sum + l.at(i);
+}	
+
+print(sum);

@@ -1,0 +1,13 @@
+num a;
+get(a);
+num d;
+logic prime;
+prime = true;
+for d from 2 to a/2
+	if a%d == 0
+		prime = false;
+
+if prime == true
+	print("Prime");
+else
+	print("Not prime");
