@@ -1,3 +1,4 @@
+from automata import read_transitions, Automata
 from table import HashTable
 
 import re
@@ -10,6 +11,14 @@ class Scanner:
         self.separators = [" ", ";", "(", ")", "\n", "{", "}", ",", "\t","."]
         self.identifier = r'^[a-zA-Z]([a-zA-Z]|[0-9])*$'
         self.constant = r'^(0|[+-]?[1-9][0-9]*)$|^\".*\"$|^\'.*\'$'
+        transitions, alphabet, states, initial_states, final_states = read_transitions()
+        automata_transitions = []
+
+        for t in transitions:
+            t = t.split(",")
+            automata_transitions.append((t[0], t[1], t[2]))
+
+        self.automata = Automata(automata_transitions, alphabet, states, initial_states, final_states)
 
     def tokenize(self, line, linenum):
 
@@ -109,7 +118,7 @@ def run():
             if t in scanner.separators or t in scanner.operators or t in tok:
                 PIF.append((t, 0))
             else:
-                if re.search(scanner.constant, t) != None or re.search(scanner.identifier, t) != None:
+                if scanner.automata.verify(t, scanner.automata.initial_states[0]) != False or re.search(scanner.identifier, t) != None: #if scanner.automata.verify(t, scanner.automata.initial_states[0]) != False ...
                     if ST.get(t) == -1:
                         index += 1
                         ST.insert(t, index)

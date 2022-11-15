@@ -1,11 +1,8 @@
-list l;
-num n, sum;
-get(n);
+num a, b, c;
+get(a);
+get(b);
+get(c);
+num maximum = max(a,b,c);
 
-for num i from 1 to n
-{
-get(l.at(i));
-sum = sum + l.at(i);
-}
 
-print(sum);
+print(maximum);
