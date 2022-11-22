@@ -1,8 +1,15 @@
-num a, b, c;
-get(a);
-get(b);
-get(c);
-num maximum = max(a,b,c);
+list l343;
+"asdasd0 v   23a"
+3402
++324
+-345
+num n, sum;
+get(n);
 
+for num i from 1 to n
+{	
+get(l.at(i));
+sum = sum + l.at(i);
+}	
 
-print(maximum);
+print(sum);

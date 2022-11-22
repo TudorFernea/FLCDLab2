@@ -41,6 +41,9 @@ class Automata:
     def print_final_states(self):
         print(self.final_states)
 
+    def print_initial_states(self):
+        print(self.initial_states)
+
     def get_alphabet(self):
         res = []
         for c in self.alphabet:
@@ -80,10 +83,11 @@ def print_menu():
     print("2. Display alphabet")
     print("3. Display transitions")
     print("4. Display final states")
+    print("5. Display initial states")
     print("0. Exit")
 
-def read_transitions():
-    f = open("FA.in", "r")
+def read_transitions(file):
+    f = open(file, "r")
     transitions = []
     alphabet = []
     states = []
@@ -121,7 +125,7 @@ def read_transitions():
 
 def run():
 
-    transitions, alphabet, states, initial_states, final_states = read_transitions()
+    transitions, alphabet, states, initial_states, final_states = read_transitions("FA.in")
     automata_transitions = []
 
     for t in transitions:
@@ -130,8 +134,8 @@ def run():
 
     a = Automata(automata_transitions, alphabet, states, initial_states, final_states)
     inputt = "\"abcd\""
-    input2 = "\"a022333ASBASD34ASaa asd\""
-    input3 = "0223"
+    input2 = "\"a022333ASBASD34ASaaasd\""
+    input3 = "223"
     input4 = "abcd"
 
     while True:
@@ -146,6 +150,8 @@ def run():
             a.print_transitions()
         if op == "4":
             a.print_final_states()
+        if op == "5":
+            a.print_initial_states()
         if op == "0":
             break
 

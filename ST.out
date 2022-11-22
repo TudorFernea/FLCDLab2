@@ -1,5 +1,8 @@
 Symbol table using hash table 
-('a', 1)
-('b', 2)
-('c', 3)
-('maximum', 4)
+('l343', 1)
+('"asdasd0 v   23a"', 2)
+('n', 3)
+('sum', 4)
+('i', 5)
+('1', 6)
+('l', 7)
